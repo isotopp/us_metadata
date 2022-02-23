@@ -10,10 +10,10 @@ import MySQLdb.cursors
 
 ## Connection data configured here
 db_config = dict(
-    host="192.168.1.10",
-    user="kris",
-    password="geheim",
-    db="kris",
+    host="localhost",
+    user="username",
+    password="password",
+    db="Harvard_CAP_MetaData_Juris_US",
     cursorclass=MySQLdb.cursors.DictCursor,
 )
 db = MySQLdb.connect(**db_config)
@@ -26,7 +26,7 @@ sql_setup = [
       analysis_id integer not null auto_increment,
       cardinality integer not null,
       char_count integer not null,
-      ocr_confidence double not null,
+      ocr_confidence double null,
       pagerank_percentile double not null,
       pagerank_raw double not null,
       random_bucket integer not null,
@@ -50,7 +50,7 @@ sql_setup = [
     """create table citation (
         citation_id integer not null auto_increment,
         ct_id integer not null,
-        cite varchar(255) not null,
+        cite text null,
         primary key (citation_id)
     )""",
 
@@ -66,8 +66,8 @@ sql_setup = [
     """create table court (
         court_id integer not null auto_increment,
         name varchar(255) not null,
-        name_abbreviation varchar(64) not null,
-        slug varchar(64) not null,
+        name_abbreviation text null,
+        slug text not null,
         url varchar(255) not null,
         primary key (court_id)
     )""",
@@ -77,7 +77,7 @@ sql_setup = [
         jurisdiction_id integer not null,
         name varchar(64) not null,
         name_long varchar(255) not null,
-        slug varchar(64) not null,
+        slug text not null,
         url varchar(255) not null,
         whitelisted integer not null,
     
@@ -119,16 +119,16 @@ sql_setup = [
         -- citations as n:m relationship
         -- cites_to ignored
         court_id integer not null,
-        decision_date date not null,
+        decision_date text null,
         docket_number text not null,  -- varchar(255) too short
         first_page varchar(64) not null, -- "3-5"
-        frontend_pdf_url text not null, -- varchar(255) too short
+        frontend_pdf_url text null, -- varchar(255) too short
         frontend_url text not null, -- varchar(255) too short
         jurisdiction_id integer not null,
         last_page varchar(64) not null, -- "3-5"
-        last_updated datetime not null,
+        last_updated text null,
         name text not null, -- varchar(255) too short
-        name_abbreviation varchar(255) not null,
+        name_abbreviation text null,
         -- preview ignored
         
         provenance_id integer not null,
